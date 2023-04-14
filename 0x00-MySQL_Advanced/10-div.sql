@@ -2,7 +2,7 @@
 -- the second number or returns 0 if the second number is equal to 0.DELIMITER $$
 DELIMITER //
 
-DROP FUNCTION IF EXISTS 'SafeDiv';
+DROP FUNCTION IF EXISTS `SafeDiv`;
 
 CREATE FUNCTION SafeDiv(
         a INTEGER,
@@ -13,7 +13,7 @@ DETERMINISTIC
 BEGIN
     DECLARE res FLOAT;
     IF b = 0 THEN
-        SET res = 0;
+            SET res = 0;
     ELSE
         SET res = (a * 1.0) / b;
     END IF;
