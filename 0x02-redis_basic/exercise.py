@@ -70,7 +70,7 @@ class Cache:
         key = str(uuid4())
         self._redis.set(key, data)
         return key
-    
+
     def get(self, key: str, fn: Optional[Callable] = None) -> Union[str,
                                                                     bytes,
                                                                     int,
@@ -78,11 +78,11 @@ class Cache:
         """ Get random """
         res = self._redis.get(key)
         return fn(res) if fn else res
-    
+
     def get_str(self, data: bytes) -> str:
         """ Get bytes to string """
         return data.decode('utf-8')
-    
+
     def get_int(self, data: bytes) -> int:
         """ Get bytes to int """
         return int.from_bytes(data, sys.byteorder)
