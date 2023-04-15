@@ -79,4 +79,8 @@ class Cache:
         res = self._redis.get(key)
         return fn(res) if fn else res
     
-    def get_str
+    def get_str(self, data: bytes) -> str:
+        """ Get bytes to string """
+        return data.decode('utf-8')
+    
+    
