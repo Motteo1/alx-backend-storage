@@ -13,9 +13,9 @@ def replay(method: Callable):
     key = method.__qualname__
     p = "".join([key, ":inputs"])
     q = "".join([key, ":outputs"])
-    count = method.__self__get(key)
-    p_list = method.__self__.lrange(p, 0, -1)
-    q_list = method.__self__.lrange(q, 0, -1)
+    count = method.__self__.get(key)
+    p_list = method.__self__._redis.lrange(p, 0, -1)
+    q_list = method.__self__._redis.lrange(q, 0, -1)
     queue = list(zip(p_list, q_list))
     print(f"{key} was called {decode_utf8(count)} times:")
     for k, v, in queue:
