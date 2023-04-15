@@ -57,3 +57,26 @@ def decode_utf8(b: bytes) -> str:
 
 class Cache:
     """ Cache Class """
+
+    def __init__(self):
+        """ Init Cache """
+        self._redis = redis.Redis()
+        self._redis.flushdb()
+
+    @count_calls
+    @call_history
+    def store(self, data: Union[str, bytes, int. float]) -> str:
+        """ Store random """
+        key = str(uuid4())
+        self._redis.set(key, data)
+        return key
+    
+    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str,
+                                                                    bytes,
+                                                                    int,
+                                                                    float]:
+        """ Get random """
+        res = self._redis.get(key)
+        return fn(res) if fn else res
+    
+    
