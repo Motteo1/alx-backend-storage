@@ -32,9 +32,9 @@ def call_history(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """Wrapper function"""
-        self.redis.rpush(p, str(args))
+        self._redis.rpush(p, str(args))
         res = method(self, *args, **kwargs)
-        self.redis.rpush(q, str(res))
+        self._redis.rpush(q, str(res))
         return res
     return wrapper
 
@@ -45,7 +45,7 @@ def count_calls(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """Wrapper function"""
-        self.redis.incr(key)
+        self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
 
