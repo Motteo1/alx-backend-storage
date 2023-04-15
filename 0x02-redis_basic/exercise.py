@@ -7,6 +7,7 @@ import sys
 from typing import Callable, Optional, Union
 from uuid import uuid4
 
+
 def replay(method: Callable):
     """Replay function"""
     key = method.__qualname__
@@ -26,3 +27,24 @@ def replay(method: Callable):
 def call_history(method: Callable) -> Callable:
     """ Call History """
     key = method.__qualname__
+    p = "".join([key, ":inputs"])
+    q = "".join([key, ":outputs"])
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """Wrapper function"""
+        self.redis.rpush(p, str(args))
+        res = method(self, *args, **kwargs)
+        self.redis.rpush(q, str(res))
+        return res
+    return wrapper
+
+
+def count_calls(method: Callable) -> Callable:
+    """ Count Calls """
+    key = method.__qualname__
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """Wrapper function"""
+        self.redis.incr(key)
+        return method(self, *args, **kwargs)
+    return wrapper
