@@ -48,3 +48,12 @@ def count_calls(method: Callable) -> Callable:
         self.redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
+
+
+def decode_utf8(b: bytes) -> str:
+    """ Decode utf8 """
+    return b.decode('utf-8') if type(b) == bytes else b
+
+
+class Cache:
+    """ Cache Class """
